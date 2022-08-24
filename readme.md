@@ -45,4 +45,4 @@ molecules and pharmacophores.
 - einops
 
 ----
-You may not use the material for commercial purposes. If you have any question, please feel free to create an issue or email renyi.zhou@outlook.com.
+You may not use the material for any commercial purposes. If you have any question, please feel free to create an issue or email renyi.zhou@outlook.com.
