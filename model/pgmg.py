@@ -174,8 +174,8 @@ class PGMG(nn.Module):
         full_mask = torch.cat((pp_mask, full_mask), dim=1)  # batch seq_plus
 
         zzz = torch.cat((vvs, zzs), dim=0)  # seq_plus batch feat
-        if not self.remove_dencoder:
-            zzz = self.dencoder(zzz, full_mask)
+        #if not self.remove_dencoder:
+        zzz = self.dencoder(zzz, full_mask)
 
         return zzz, full_mask
 
