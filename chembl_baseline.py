@@ -49,7 +49,7 @@ import argparse
 # ====================================================
 
 parser = argparse.ArgumentParser()
-parser.add_argument('gpu_num')
+#parser.add_argument('gpu_num')
 parser.add_argument('output_dir')
 # parser.add_argument('model_type', choices=['rs_mapping', 'cs_mapping', 'non_vae', 'remove_pp_dis'])
 
@@ -57,7 +57,7 @@ args = parser.parse_args()
 
 args.model_type = 'rs_mapping'
 
-os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu_num
+#os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu_num
 
 model_default_settings = {
     "max_len": 128,  # max length of generated SMILES
