@@ -9,7 +9,7 @@ This repository contains PyTorch implementation of PGMG. A flexible and powerful
 
 ### Training
 
-Run `chembl_baseline.py` as `python chembl_baseline.py <gpu_num> <output_dir>`
+Run `chembl_baseline.py` as `CUDA_VISIBLE_DEVICES=<gpu_num> python chembl_baseline.py <output_dir>`
 - the `gpu_num` indicates which gpu you want to run the code
 - the `output_dir` is the directory you want to store the trained model
 
