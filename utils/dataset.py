@@ -9,7 +9,7 @@ from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import Dataset
 from tqdm.auto import tqdm
 
-from smiles2ppgraph import smiles2ppgraph
+from utils.smiles2ppgraph import smiles2ppgraph
 
 MAX_NUM_PP_GRAPHS = 8  # same with smiles2ppgraph.py
 
