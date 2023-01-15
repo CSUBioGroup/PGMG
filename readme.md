@@ -109,6 +109,8 @@ To run generation on the demo input:
 python generate.py data/phar_demo1.edgep demo_result/ weights/chembl_fold0_epoch32.pth weights/tokenizer.pkl --filter --device cpu
 ```
 
+**[IMPORTANT] We provide the weights file acquired using `train_chembl_baseline.py` in the [release page](https://github.com/CSUBioGroup/PGMG/releases/tag/v1.0).** Please unzip it in the root directory.
+
 ## Evaluations
 
 - use `Is_meet_phco_molecule(smiles,dgl_graph)` in `utils.match_eval` to calculate the match score between 
