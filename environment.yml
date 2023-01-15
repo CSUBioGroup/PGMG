@@ -1,0 +1,21 @@
+name: pgmg
+channels:
+  - dglteam
+  - conda-forge
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/msys2/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+  - defaults
+dependencies:
+  - dgl-cuda10.2=0.9.1post1=py38_0
+  - numpy=1.23.5=py38h7042d01_0
+  - pandas=1.5.2=py38h8f669ce_0
+  - pip=22.3.1=pyhd8ed1ab_0
+  - python=3.8.15=h4a9ceb5_0_cpython
+  - rdkit=2022.09.1=py38h5acb366_1
+  - tqdm=4.64.1=pyhd8ed1ab_0
+  - pip:
+    - einops==0.6.0
+    - fairseq==0.10.2
+    - torch==1.13.0

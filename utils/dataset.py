@@ -120,7 +120,7 @@ def _corrupt(token_seq: List[int], mask_token, corrupt_percent=0.1, poisson_lamb
     return token_seq
 
 
-def get_rsmiles(smiles):
+def get_random_smiles(smiles):
     mol = Chem.MolFromSmiles(smiles)
 
     # clear isotope

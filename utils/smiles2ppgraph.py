@@ -1,14 +1,12 @@
 import os
+import random
 
+import dgl
+import numpy as np
 import torch
 from rdkit import Chem
 from rdkit import RDConfig
 from rdkit.Chem import ChemicalFeatures
-
-import dgl
-import random
-import numpy as np
-from collections import Counter
 
 MAX_NUM_PP_GRAPHS = 8
 
@@ -135,7 +133,7 @@ def smiles2ppgraph(smiles:str):
         atom_index_list.append(atom_index)  # atom indices of one pharmacophore feature
     random.shuffle(pharmocophore_all)
     num = [3, 4, 5, 6, 7]
-    num_p = [0.086, 0.0864, 0.389, 0.495, 0.0273]  # got these number using statistics
+    num_p = [0.086, 0.0864, 0.389, 0.495, 0.0273]  # P(Number of Pharmacophore points)
     num_ = sample_probability(num, num_p, 1)
 
     type_list = []
@@ -150,8 +148,8 @@ def smiles2ppgraph(smiles:str):
 
     for pharmocophore_all_i in range(len(mol_phco)):
         for pharmocophore_all_j in range(len(mol_phco)):
-            if mol_phco[pharmocophore_all_i][1] == mol_phco[pharmocophore_all_j][1] and mol_phco[pharmocophore_all_i][
-                0] != mol_phco[pharmocophore_all_j][0]:
+            if mol_phco[pharmocophore_all_i][1] == mol_phco[pharmocophore_all_j][1] \
+                    and mol_phco[pharmocophore_all_i][0] != mol_phco[pharmocophore_all_j][0]:
                 index_ = [min(mol_phco[pharmocophore_all_i][0], mol_phco[pharmocophore_all_j][0]),
                           max(mol_phco[pharmocophore_all_i][0], mol_phco[pharmocophore_all_j][0])]
                 mol_phco[pharmocophore_all_j] = [index_, mol_phco[pharmocophore_all_i][1]]
