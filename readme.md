@@ -58,7 +58,7 @@ Other configurations need to be changed inside `train_chembl_baseline.py`, inclu
 ## Using a trained PGMG model to generate molecules
 
 
-**1. prepare the pharmacophore hypotheses**
+### Prepare the pharmacophore hypotheses
 
 First of all, you need some pharmacophore hypotheses. A pharmacophore is defined as a set of chemical features and their spatial information that is necessary for a drug to bind to a target and there are many ways to acquire one. 
 
@@ -67,21 +67,40 @@ And you can always adjust the input hypothesis according to the results.
 
 Apart from building it yourself, you can also acquire them by searching the literature or just randomly sampling 3-6 pharmacophore elements from a reference ligand to build some hypotheses and filtering the generated molecules afterwards.
 
-**2. format the hypotheses**
+### Format the hypotheses
 
-The pharmacophore hypotheses should be provided in one of the two formats:
+The pharmacophore hypotheses need to be converted to a fully-connected graph and should be provided in one of the two formats:
 
-- the `.posp` format where the type of the pharmacophore points and the 3d positions are provided, see `data/phar_demo2.posp` for example.
-- the `.edgep` format where the type of the pharmacophore points and the distances between each point are provided, see `data/phar_demo1.edgep` for example.
+- the `.posp` format where the type of the pharmacophore points and the 3d positions are provided, see `data/phar_demo2.posp` for example. 
+- the `.edgep` format where the type of the pharmacophore points and the shortest-path-based distances between each point are provided, see `data/phar_demo1.edgep` for example. 
 
-Pharmacophore types supported by default:
+**Pharmacophore types** supported by default:
 - AROM: aromatic ring
 - POSC: cation
 - HACC: hydrogen bond acceptor
 - HDON: hydrogen bond donor
-- HYBL/LHYBL: hydrophobic group (Hydrophobe, LumpedHydrophobe)
+- HYBL: hydrophobic group (ring)
+- LHYBL: hydrophobic group (non-ring)
 
-**3. generate**
+The 3d position in `.posp` files will first be used to calculate the Euclidean distances between each point and then the distances will be mapped to the shortest-path-based distances.
+
+See the Supplemental Information of our paper for detailed descriptions.
+
+**How to calculate shortest-path distances**: 
+The shortest path between pharmacophore point `a` and `b` is calculated as $D_{a,b} = D_{inter_{a,b}}+D_{inner_{a}}+D_{inner_{b}}$.
+
+$D_{inter}$ is the sum of the lengths of each bond on the shortest path between two pharmacophore points, where the length of a single covalent single bond is set to 1, a double bond 0.87, an aromatic bond 0.91, a triple bond 0.78. 
+$D_{inner}$ is the distance between the center of the pharmacophore point and the edge of it. If the pharmacophore is a ring, then the distance is calculated as `0.2*N`, where N is number of heavy atoms in the pharmacophore point.
+
+For example:
+
+![sp_example.png](pics%2Fsp_example.png)
+
+$D_{A,B}=D_{inter_{A,B}}+D_{inner_A}=(1+0.87)+(0.2*6)=3.07$
+$D_{A,C}=D_{inter_{A,C}}+D_{inner_A}=(1+1+0.87+1+1+0.91+0.91+0.91)+(0.2*6)=8.8$
+
+
+### Generate
 
 Use the `generate.py` to generate molecules.
 
