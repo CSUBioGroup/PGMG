@@ -10,6 +10,8 @@ This repository contains the PyTorch implementation of *PGMG: A Pharmacophore-Gu
 
 Through the guidance of pharmacophore, PGMG provides a flexible strategy to generate bioactive molecules with structural diversity in various scenarios using a trained variational autoencoder.
 
+**Update on 02/05/2023: [The PGMG web server](https://www.csuligroup.com/PGMG) is now available! Experience PGMG without having to perform any deployments on your own.** 
+
 
 ## Overview
 
