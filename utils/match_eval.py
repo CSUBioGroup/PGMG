@@ -56,17 +56,20 @@ def cal_dist_all(mol, phco_list_i, phco_list_j):
 
 
 def extract_dgl_info(g):
+    node_type = g.ndata.get('type', g.ndata['h'][:, :-1])  # a temporary fix
+    dist = g.edata.get('dist', g.edata['h'])
+
     ref_dist_list = []
     value = []
     for i in range(len(g.edges()[0])):
         ref_dist_name = '{}{}'.format(int(g.edges()[0][i]), int(g.edges()[1][i]))  ##取参考药效团的距离
         ref_dist_list.append(ref_dist_name)
-        value.append(float(g.edata['dist'][i]))
+        value.append(float(dist[i]))
     dist_dict = dict(zip(ref_dist_list, value))
     type_list = []
-    for n in range(len(g.ndata['type'])):
+    for n in range(len(node_type)):
         list_0 = [0]
-        nonzoro_list = (g.ndata['type'])[n].numpy().tolist()
+        nonzoro_list = node_type[n].numpy().tolist()
         list_0.extend(nonzoro_list)
         aa = np.nonzero(list_0)
         type_list.append(tuple(aa[0]))
@@ -77,7 +80,7 @@ __FACTORY = ChemicalFeatures.BuildFeatureFactory(os.path.join(RDConfig.RDDataDir
 __MAPPING = {'Aromatic': 1, 'Hydrophobe': 2, 'PosIonizable': 3, 'Acceptor': 4, 'Donor': 5, 'LumpedHydrophobe': 6}
 
 
-def Is_meet_phco_molecule(smiles, g):
+def match_score(smiles, g):
     mol = Chem.MolFromSmiles(smiles)
     if mol is None:
         return -1
@@ -200,17 +203,16 @@ from multiprocessing import Pool, TimeoutError
 from multiprocessing.dummy import Pool as ThreadPool
 
 
-__n_repeat = None
 __timeout = None
 __pp_graph = None
 __smiles_list = None
 
 
 def foo(idx):
-    g = __pp_graph[idx // __n_repeat]
+    g = __pp_graph[idx]
     smiles = __smiles_list[idx]
 
-    s = Is_meet_phco_molecule(smiles, g)
+    s = match_score(smiles, g)
 
     return s
 
@@ -226,16 +228,21 @@ def foo_timeout(idx):
     return score
 
 
-def get_match_score(pp_graph, smiles_list, n_repeat=1, n_workers=8, timeout=20):
-    assert len(pp_graph) * n_repeat == len(smiles_list)
-    global __n_repeat
+def get_match_score(phar_graphs, smiles_list, n_workers=8, timeout=20):
+    """
+    meaning of return value:
+        0~1: normal match score;
+        -1: invalid molecule;
+        -2: timeout
+    """
+
+    assert len(phar_graphs) == len(smiles_list)
     global __timeout
     global __pp_graph
     global __smiles_list
 
-    __n_repeat = n_repeat
     __timeout = timeout
-    __pp_graph = pp_graph
+    __pp_graph = phar_graphs
     __smiles_list = smiles_list
 
     N = len(smiles_list)

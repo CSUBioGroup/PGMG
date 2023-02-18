@@ -55,6 +55,15 @@ def format_type(types: List[str]):
     return tp, size
 
 
+def load_phar_file(file_path: Path):
+    load_file_fn = {'.posp': load_pp_file, '.edgep': load_ep_file}.get(file_path.suffix, None)
+
+    if load_file_fn is None:
+        raise ValueError(f'Invalid file path: "{file_path}"!')
+
+    return load_file_fn(file_path)
+
+
 def load_pp_file(file_path: Path):
     node_type = []
     node_size = []
@@ -116,9 +125,9 @@ def load_ep_file(file_path: Path):
     u = []
     v = []
     dis = []
-    for i in range(1+n_nodes, 1+n_nodes+n_nodes*(n_nodes-1)//2):
+    for i in range(1 + n_nodes, 1 + n_nodes + n_nodes * (n_nodes - 1) // 2):
         ui, vi, disi = lines[i].strip().split(' ')
-        ui, vi = int(ui)-1, int(vi)-1
+        ui, vi = int(ui) - 1, int(vi) - 1
         disi = float(disi)
 
         u.append(ui)

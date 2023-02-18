@@ -5,12 +5,11 @@ from pathlib import Path
 import dgl
 import rdkit
 import torch
-from tqdm.auto import tqdm
 from rdkit import RDLogger
-
+from tqdm.auto import tqdm
 
 from model.pgmg import PGMG
-from utils.file_utils import load_pp_file, load_ep_file
+from utils.file_utils import load_phar_file
 from utils.utils import seed_torch
 
 RDLogger.DisableLog('rdApp.*')
@@ -84,8 +83,7 @@ if __name__ == '__main__':
     for file in files:
         output_path = args.output_dir / f'{file.stem}_result.txt'
 
-        load_file_fn = {'.posp': load_pp_file, '.edgep': load_ep_file}[file.suffix]
-        g = load_file_fn(file)
+        g = load_phar_file(file)
 
         g_batch = [g] * args.batch_size
         g_batch = dgl.batch(g_batch).to(args.device)

@@ -311,8 +311,7 @@ def test_generate(valid_loader, model, epoch, random_sampling=False):
         res.extend(tokenizer.get_text(predictions))
         pp_graph_list.extend(dgl.unbatch(pp_graphs.to('cpu')))
 
-    match_score = get_match_score(pp_graph_list, res, n_repeat=1, n_workers=CFG.num_workers,
-                                  timeout=10)
+    match_score = get_match_score(pp_graph_list, res, n_workers=CFG.num_workers, timeout=10)
 
     with Pool(CFG.num_workers) as pool:
         v_smiles = pool.map(format_smiles, res)

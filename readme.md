@@ -136,8 +136,26 @@ python generate.py data/phar_demo1.edgep demo_result/ weights/chembl_fold0_epoch
 
 ## Evaluations
 
-- use `Is_meet_phco_molecule(smiles,dgl_graph)` in `utils.match_eval` to calculate the match score between 
-molecules and pharmacophores. 
+Use `get_match_score(smiles,dgl_graph)` in `utils.match_eval` to calculate the match score between molecules and pharmacophores. 
+
+For example:
+
+```python
+from pathlib import Path
+
+from utils.file_utils import load_phar_file
+from utils.match_eval import get_match_score
+
+smiles_list = ['Cc1ccc(C(=O)Nc2c(C(N)=O)sc3ncccc23)o1', 'O=C(NC1CCCCC1)c1cc2c(nc(O)c3ccccc32)s1']
+
+file_path = Path('data/phar_demo1.edgep')
+
+dgl_graph = load_phar_file(file_path)
+
+dgl_graphs = [dgl_graph, dgl_graph]
+
+match_scores = get_match_score(dgl_graphs, smiles_list,  n_workers=8, timeout=20)  # [0.67, 1.0]
+```
 
 
 ----
