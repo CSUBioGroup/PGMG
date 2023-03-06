@@ -89,17 +89,17 @@ The 3d position in `.posp` files will first be used to calculate the Euclidean d
 See the Supplemental Information of our paper for detailed descriptions.
 
 **How to calculate shortest-path distances**: 
-The shortest path between pharmacophore point `a` and `b` is calculated as $D_{a,b} = D_{inter_{a,b}}+D_{inner_{a}}+D_{inner_{b}}$.
+The shortest path between pharmacophore point `a` and `b` is calculated as $D_{a,b} = D_{inter_{a,b}}+D_{intra_{a}}+D_{intra_{b}}$.
 
 $D_{inter}$ is the sum of the lengths of each bond on the shortest path between two pharmacophore points, where the length of a single covalent single bond is set to 1, a double bond 0.87, an aromatic bond 0.91, a triple bond 0.78. 
 
-$D_{inner}$ is the distance between the center of the pharmacophore point and the edge of it. If the pharmacophore is a ring, then the distance is calculated as `0.2*N`, where N is number of heavy atoms in the pharmacophore point.
+$D_{intra}$ is the distance between the center of the pharmacophore point and the edge of it. If the pharmacophore is a ring, then the distance is calculated as `0.2*N`, where N is number of heavy atoms in the pharmacophore point.
 
 For example, the shortest-path distances between A-B and A-C in the picture below can be calculated as:
 
-$$ D_{A,B}=D_{inter_{A,B}}+D_{inner_A}=(1+0.87)+(0.2*6)=3.07 $$
+$$ D_{A,B}=D_{inter_{A,B}}+D_{intra_A}=(1+0.87)+(0.2*6)=3.07 $$
 
-$$ D_{A,C}=D_{inter_{A,C}}+D_{inner_A}=(1+1+0.87+1+1+0.91+0.91+0.91)+(0.2*6)=8.8 $$
+$$ D_{A,C}=D_{inter_{A,C}}+D_{intra_A}=(1+1+0.87+1+1+0.91+0.91+0.91)+(0.2*6)=8.8 $$
 
 <div style="text-align:center"> <img width="20%" src="pics/sp_example.png"> </div>
 
