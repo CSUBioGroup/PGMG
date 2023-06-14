@@ -56,6 +56,7 @@ CUDA_VISIBLE_DEVICES=<gpu_num> python train_chembl_baseline.py <output_dir> --sh
 
 Other configurations need to be changed inside `train_chembl_baseline.py`, including model settings and the data directory.
 
+It takes about 70 hours to run the training script with default parameters using a single 2080Ti.
 
 ## Using a trained PGMG model to generate molecules
 
@@ -127,12 +128,15 @@ optional arguments:
   --seed SEED
 ```
 
+The output is a `.txt` file containing the generated SMILES. It takes about 30 seconds to generate 10,000 molecules using a single 2080Ti, and about 10 minutes if using CPUs.
+
 To run generation on the demo input:
 ```bash
 python generate.py data/phar_demo1.edgep demo_result/ weights/chembl_fold0_epoch32.pth weights/tokenizer.pkl --filter --device cpu
 ```
 
-**[IMPORTANT] We provide the weights file acquired using `train_chembl_baseline.py` in the [release page](https://github.com/CSUBioGroup/PGMG/releases/tag/v1.0).** Please unzip it in the root directory.
+**We provide the weights file acquired using `train_chembl_baseline.py` in the [release page](https://github.com/CSUBioGroup/PGMG/releases/tag/v1.0).** Please unzip it in the root directory.
+
 
 ## Evaluations
 
