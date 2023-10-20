@@ -4,9 +4,9 @@
 ----
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a>
 
-https://arxiv.org/abs/2207.00821
+https://www.nature.com/articles/s41467-023-41454-9
 
-This repository contains the PyTorch implementation of *PGMG: A Pharmacophore-Guided Deep Learning Approach for Bioactive Molecule Generation*. 
+This repository contains the PyTorch implementation of *A pharmacophore-guided deep learning approach for bioactive molecular generation*. 
 
 Through the guidance of pharmacophore, PGMG provides a flexible strategy to generate bioactive molecules with structural diversity in various scenarios using a trained variational autoencoder.
 
@@ -27,7 +27,7 @@ The pharmacophore hypothesis will be transformed into a weighted complete graph 
 - pytorch==1.13.0
 - rdkit==2022.09.1
 - dgl-cuda10.2==0.9.1
-- fairseq==0.10.2  
+- fairseq==0.10.2
 - numpy==1.23.5
 - pandas==1.5.2
 - tqdm==4.64.1
@@ -69,6 +69,7 @@ If you have a biochemistry background, we strongly encourage you to build it you
 And you can always adjust the input hypothesis according to the results.
 
 Apart from building it yourself, you can also acquire them by searching the literature or just randomly sampling 3-6 pharmacophore elements from a reference ligand to build some hypotheses and filtering the generated molecules afterwards.
+
 
 ### Format the hypotheses
 
@@ -136,6 +137,8 @@ python generate.py data/phar_demo1.edgep demo_result/ weights/chembl_fold0_epoch
 ```
 
 **We provide the weights file acquired using `train_chembl_baseline.py` in the [release page](https://github.com/CSUBioGroup/PGMG/releases/tag/v1.0).** Please unzip it in the root directory.
+
+**The current model only support a maximum of 8 pharmacophore points in a single hypotheis.** If you want to increase the maximum number, a possible way is to re-train the model with increased number of randomly selected pharmacophore elements and a larger `MAX_NUM_PP_GRAPHS`.
 
 
 ## Evaluations

@@ -2,10 +2,6 @@ name: pgmg
 channels:
   - dglteam
   - conda-forge
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/msys2/
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
   - defaults
 dependencies:
   - dgl-cuda10.2=0.9.1post1=py38_0
@@ -16,6 +12,7 @@ dependencies:
   - rdkit=2022.09.1=py38h5acb366_1
   - tqdm=4.64.1=pyhd8ed1ab_0
   - pip:
+    - --extra-index-url https://download.pytorch.org/whl/cu102
     - einops==0.6.0
     - fairseq==0.10.2
-    - torch==1.13.0
+    - torch==1.12.1+cu102
