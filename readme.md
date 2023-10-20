@@ -24,7 +24,7 @@ The pharmacophore hypothesis will be transformed into a weighted complete graph 
 
 ## Requirements
 - python==3.8
-- pytorch==1.13.0
+- torch==1.12.1+cu102
 - rdkit==2022.09.1
 - dgl-cuda10.2==0.9.1
 - fairseq==0.10.2
@@ -41,7 +41,6 @@ We recommend using `conda` to manage the environment.
 ```bash
 conda env create -f environment.yml
 ```
-
 
 ## Training
 
