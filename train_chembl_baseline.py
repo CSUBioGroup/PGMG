@@ -535,4 +535,4 @@ if __name__ == '__main__':
                         },
                        output_dir / f'fold{CFG.valid_fold}_epoch{epoch + 1}.pth')
 
-            mean_match_score = test_generate(gen_loader, model, epoch)
+            # mean_match_score = test_generate(gen_loader, model, epoch)
