@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 import dgl
 import numpy as np
@@ -70,7 +70,6 @@ def load_pp_file(file_path: Path):
     node_type = []
     node_size = []
     node_pos = []  # [(x,y,z)]
-
 
     lines = file_path.read_text().strip().split('\n')
 
@@ -151,3 +150,41 @@ def load_ep_file(file_path: Path):
     g = build_dgl_graph(u, v, dis, node_type, node_size)
 
     return g
+
+
+def export_ep_text(g: dgl.DGLGraph, file_path: Optional[Path] = None):
+    """
+    transfer a given DGLGraph into text using .edgep format
+    """
+
+    g = g.cpu()
+
+    assert g.batch_size == 1
+
+    edgep_text = ''
+
+    n = g.num_nodes()
+    edgep_text += f'{n}\n'
+
+    type_vec = g.ndata['h'][:, :-1] if 'h' in g.ndata.keys() else g.ndata['type']
+
+    for i in range(n):
+        types = type_vec[i].nonzero().numpy().flatten()
+        t = ','.join([idx2phar[i] for i in types])
+        edgep_text += f'{i + 1} {t}\n'
+
+    dist_vec = g.edata['h'] if 'h' in g.edata.keys() else g.edata['dist']
+
+    dist_mapping = {}
+    for i, (u, v) in enumerate(torch.stack(g.edges()).T.numpy()):
+        u, v = (u, v) if u < v else (v, u)
+        dist_mapping[(u, v)] = dist_vec.numpy().flatten()[i]
+
+    for (u, v), dist in dist_mapping.items():
+        edgep_text += f'{u + 1} {v + 1} {dist}\n'
+
+    if file_path is not None:
+        assert file_path.suffix == '.edgep'
+        file_path.write_text(edgep_text)
+
+    return edgep_text
