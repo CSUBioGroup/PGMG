@@ -5,6 +5,8 @@ import dgl
 import numpy as np
 import torch
 
+from .smiles2ppgraph import MAX_NUM_PP_GRAPHS
+
 idx2phar = {0: 'AROM',
             1: 'HYBL',
             2: 'POSC',
@@ -69,10 +71,17 @@ def load_pp_file(file_path: Path):
     node_size = []
     node_pos = []  # [(x,y,z)]
 
-    for line in file_path.read_text().strip().split('\n'):
-        types, x, y, z = line.strip().split(' ')
 
-        tp, size = format_type(types.strip().split(' '))
+    lines = file_path.read_text().strip().split('\n')
+
+    n_nodes = len(lines)
+
+    assert n_nodes <= MAX_NUM_PP_GRAPHS
+
+    for line in lines:
+        types, x, y, z = line.strip().split()
+
+        tp, size = format_type(types.strip().split(','))
 
         node_type.append(tp)
         node_size.append(size)
@@ -110,11 +119,13 @@ def load_ep_file(file_path: Path):
 
     n_nodes = int(lines[0].strip())
 
+    assert n_nodes <= MAX_NUM_PP_GRAPHS
+
     for i in range(1, 1 + n_nodes):
         idx, types = lines[i].strip().split()
         assert int(idx) == i
 
-        tp, size = format_type(types.strip().split(' '))
+        tp, size = format_type(types.strip().split(','))
 
         node_type.append(tp)
         node_size.append(size)
